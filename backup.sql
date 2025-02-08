@@ -79,6 +79,37 @@ INSERT INTO `flight` VALUES (1,1,'2023-08-15 15:30:00','2023-08-30 12:00:00','�
 UNLOCK TABLES;
 
 --
+-- Table structure for table `members`
+--
+
+DROP TABLE IF EXISTS `members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `members` (
+  `member_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `github_name` varchar(50) DEFAULT NULL,
+  `major` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`member_id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `members`
+--
+
+LOCK TABLES `members` WRITE;
+/*!40000 ALTER TABLE `members` DISABLE KEYS */;
+INSERT INTO `members` VALUES (1,'test1234','tes1t@test.com','password123','홍길동','hong','컴퓨터공학');
+/*!40000 ALTER TABLE `members` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `passenger`
 --
 
@@ -200,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-07 13:55:07
+-- Dump completed on 2025-02-07 19:05:16

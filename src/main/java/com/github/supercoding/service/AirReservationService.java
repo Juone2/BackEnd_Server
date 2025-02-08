@@ -53,30 +53,30 @@ public class AirReservationService {
 
   @Transactional(transactionManager = "tm2")
   public ReservationResult makeReservation(ReservationRequest reservationRequest) {
-        // 1. Reservation Repository, Passenger Repository, Join table ( flight/airline_ticket ),
-            
-        // 0. userId,airline_ticke_id
-        Integer userId = reservationRequest.getUserId();
-        Integer airlineTicketId = reservationRequest.getAirlineTicketId();
+    // 1. Reservation Repository, Passenger Repository, Join table ( flight/airline_ticket ),
+        
+    // 0. userId,airline_ticke_id
+    Integer userId = reservationRequest.getUserId();
+    Integer airlineTicketId = reservationRequest.getAirlineTicketId();
 
-        // 1. Passenger ID
-        Passenger passenger = passengerRepository.findPassengerByUserId(userId);
-        Integer passengerId = passenger.getPassengerId();
+    // 1. Passenger ID
+    Passenger passenger = passengerRepository.findPassengerByUserId(userId);
+    Integer passengerId = passenger.getPassengerId();
 
-        // 2. price 등의 정보 불러오기
-        List<AirlineTicketAndFlightInfo> airlineTicketAndFlightInfos
-                = airlineTicketRepository.findAllAirLineTicketAndFlightInfo(airlineTicketId);
+    // 2. price 등의 정보 불러오기
+    List<AirlineTicketAndFlightInfo> airlineTicketAndFlightInfos
+            = airlineTicketRepository.findAllAirLineTicketAndFlightInfo(airlineTicketId);
 
-        // 3. reservation 생성
-        Reservation reservation = new Reservation(passengerId, airlineTicketId);
-        Boolean isSuccess = reservationRepository.saveReservation(reservation);
+    // 3. reservation 생성
+    Reservation reservation = new Reservation(passengerId, airlineTicketId);
+    Boolean isSuccess = reservationRepository.saveReservation(reservation);
 
-        // TODO: ReservationResult DTO 만들기
-        List<Integer> prices = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getPrice).collect(Collectors.toList());
-        List<Integer> charges = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getCharge).collect(Collectors.toList());
-        Integer tax = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getTax).findFirst().get();
-        Integer totalPrice = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getTotalPrice).findFirst().get();
+    // TODO: ReservationResult DTO 만들기
+    List<Integer> prices = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getPrice).collect(Collectors.toList());
+    List<Integer> charges = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getCharge).collect(Collectors.toList());
+    Integer tax = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getTax).findFirst().get();
+    Integer totalPrice = airlineTicketAndFlightInfos.stream().map(AirlineTicketAndFlightInfo::getTotalPrice).findFirst().get();
 
-        return new ReservationResult(prices, charges, tax, totalPrice, isSuccess);
+    return new ReservationResult(prices, charges, tax, totalPrice, isSuccess);
   }
 }
